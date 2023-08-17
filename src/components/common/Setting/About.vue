@@ -3,7 +3,6 @@ import { onMounted, ref } from 'vue'
 import { NSpin } from 'naive-ui'
 import { fetchChatConfig } from '@/api'
 import pkg from '@/../package.json'
-import { SvgIcon } from '@/components/common'
 
 interface ConfigState {
   timeoutMs?: number
@@ -38,9 +37,9 @@ onMounted(() => {
   <NSpin :show="loading">
     <div class="p-4 space-y-4">
       <h2 class="text-xl font-bold">
-        ChatGLM Web - {{ pkg.version }}
+        绿链 - {{ pkg.version }}
       </h2>
-      <a
+      <!-- <a
         href="https://github.com/NCZkevin/chatglm-web"
         target="_blank"
         class="text-[#4b9e5f] relative flex items-center"
@@ -51,7 +50,7 @@ onMounted(() => {
       <div class="p-2 space-y-2 rounded-md bg-neutral-100 dark:bg-neutral-700">
         <p v-text="$t(&quot;common.about_head&quot;)" />
         <p v-text="$t(&quot;common.about_body&quot;)" />
-      </div>
+      </div> -->
       <!-- <p>{{ $t("setting.api") }}：{{ config?.apiModel ?? '-' }}</p>
       <p>{{ $t("setting.timeout") }}：{{ config?.timeoutMs ?? '-' }}</p>
       <p>{{ $t("setting.socks") }}：{{ config?.socksProxy ?? '-' }}</p> -->

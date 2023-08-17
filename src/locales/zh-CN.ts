@@ -26,8 +26,8 @@ export default {
     failed: '操作失败',
     verify: '验证',
     unauthorizedTips: '未经授权，请先进行验证。',
-    about_head: '本项目原作者为Chanzhaoyu&WenJing, 经NCZkevin分叉和修改，基于 MIT 协议开源。',
-    about_body: '如果你觉得此项目对你有帮助，请在Github给我点个Star，谢谢你！',
+    about_head: '',
+    about_body: '',
   },
   chat: {
     newChatButton: '新建聊天',
@@ -75,13 +75,13 @@ export default {
     language: '语言',
 
     chatgpt_memory_title: '记忆力',
-    chatgpt_memory_memo: '记忆力越强，ChatGLM 在对话过程中能记住的上下文越多，但可能会消耗更多的显存',
+    chatgpt_memory_memo: '记忆力越强，绿链gpt 在对话过程中能记住的上下文越多，但可能会消耗更多的显存',
     chatgpt_memory_choice_1: '普通记忆(5条)',
     chatgpt_memory_choice_2: '中等记忆(20条)',
     chatgpt_memory_choice_3: '最强记忆(全部)',
 
     chatgpt_top_p_title: '性格',
-    chatgpt_top_p_1_memo: '倾向于提供精确的分析，减少ChatGLM胡说八道的可能性',
+    chatgpt_top_p_1_memo: '倾向于提供精确的分析，减少绿链gpt胡说八道的可能性',
     chatgpt_top_p_2_memo: '兼顾回答的准确性和想象力',
     chatgpt_top_p_3_memo: '倾向于提供更丰富的信息',
     chatgpt_top_p_choice_1: '准确可信',

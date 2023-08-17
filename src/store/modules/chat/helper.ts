@@ -8,7 +8,7 @@ export function defaultState(): Chat.ChatState {
     active: uuid,
     usingContext: true,
     usingKnowledge: false,
-    history: [{ uuid, title: 'New Chat', isEdit: false }],
+    history: [{ uuid, title: '新对话', isEdit: false }],
     chat: [{ uuid, data: [] }],
   }
 }

@@ -26,7 +26,7 @@ const userInfo = computed(() => userStore.userInfo)
     </div>
     <div class="ml-2">
       <h2 class="font-bold text-md flex ">
-        ChatGLM Web
+        绿链
       </h2>
       <p class="text-xs text-gray-500">
         <span
@@ -34,7 +34,7 @@ const userInfo = computed(() => userStore.userInfo)
           v-text="userInfo.description"
         />
 
-        <span>
+        <!-- <span>
           <a
             href="https://github.com/nczkevin/ChatGLM-web"
             target="_blank"
@@ -43,7 +43,7 @@ const userInfo = computed(() => userStore.userInfo)
             View Source Code
             <SvgIcon class="text-lg text-[#4b9e5f] ml-1" icon="carbon:logo-github" />
           </a>
-        </span>
+        </span> -->
       </p>
     </div>
   </div>

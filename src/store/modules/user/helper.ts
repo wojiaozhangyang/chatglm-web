@@ -20,7 +20,7 @@ export function defaultSetting(): UserState {
   return {
     userInfo: {
       avatar: 'https://api.multiavatar.com/0.8481955987976837.svg',
-      name: 'ChatGLM Web',
+      name: '绿链',
 
       description: '',
       chatgpt_top_p: 100,
