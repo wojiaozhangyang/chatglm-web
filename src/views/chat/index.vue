@@ -346,6 +346,7 @@ async function onConversation() {
       onDownloadProgress: ({ event }) => {
         const xhr = event.target
         let { responseText } = xhr
+       
         responseText = removeDataPrefix(responseText)
 
         const isError = isServerError(responseText)
