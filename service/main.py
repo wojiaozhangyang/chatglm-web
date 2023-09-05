@@ -219,47 +219,100 @@ async def chat_process(request_data: dict):
 	keyword = prompt
 	filtered_df = df[df[1] == keyword]
 	if filtered_df.empty:
-			url = "https://e34e30bda81f4586a03250b37a863d36.infer.xckpjs.com/v1/infers/d8250d26-6a42-40ba-9454-0ff93119576b"
+
+			# url = "http://10.0.68.137:7861/chat/fastchat"
+			# method = 'POST'
+			#
+			# # Add header parameters, for example, x-domain-id for invoking a global service and x-project-id for invoking a project-level service.
+			# headers = {"content-type": "application/json"}
+			# # Add a body if you have specified the PUT or POST method. Special characters, such as the double quotation mark ("), contained in the body must be escaped.
+			# body = {
+			# 	"model": "chatglm2-6b",
+			# 	"messages": [
+			# 		{
+			# 			"role": "user",
+			# 			"content": keyword
+			# 		}
+			# 	],
+			# 	"temperature": 0.7,
+			# 	"n": 1,
+			# 	"max_tokens": 1024,
+			# 	"stop": [],
+			# 	"stream": "false",
+			# 	"presence_penalty": 0,
+			# 	"frequency_penalty": 0
+			# }
+
+
+			#---------------第二种------------------------------------
+
+			url = "http://10.0.68.137:7861/chat/chat"
 			method = 'POST'
 
 			# Add header parameters, for example, x-domain-id for invoking a global service and x-project-id for invoking a project-level service.
-			headers = {"content-type": "application/json"}
+			headers = {"content-type": "application/json",'accept': 'application/json'}
 			# Add a body if you have specified the PUT or POST method. Special characters, such as the double quotation mark ("), contained in the body must be escaped.
 			body = {
-				"prompt": prompt,
+				"query": keyword,
 				"history": [],
-				"max_length": max_length | 2048,
-				"top_p": top_p,
-				"temperature": temperature
+				"stream": "false"
 			}
 
-			r = signer.HttpRequest(method, url, headers, json.dumps(body))
-			sig = signer.Signer()
-			# Set the AK/SK to sign and authenticate the request.
-			sig.Key = "LWYFNIIRUKPRQUYSBZPY"
-			sig.Secret = "NNv1sCj6ufH4h82Q9fQCoLl6JDeUfEYdvFkOHqo0"
-			sig.Sign(r)
-			# print(r.headers["content-type"])
-			# print(r.headers["Authorization"])
 
-			resp = requests.request(r.method, r.scheme + "://" + r.host + r.uri, headers=r.headers, data=r.body, verify=False)
+
+
+			json_data = json.dumps(body)
+
+		  #------------------------------------------------------------------------
+			# url = "https://e34e30bda81f4586a03250b37a863d36.infer.xckpjs.com/v1/infers/d8250d26-6a42-40ba-9454-0ff93119576b"
+			# method = 'POST'
+			#
+			# # Add header parameters, for example, x-domain-id for invoking a global service and x-project-id for invoking a project-level service.
+			# headers = {"content-type": "application/json"}
+			# # Add a body if you have specified the PUT or POST method. Special characters, such as the double quotation mark ("), contained in the body must be escaped.
+			# body = {
+			# 	"prompt": prompt,
+			# 	"history": [],
+			# 	"max_length": max_length | 2048,
+			# 	"top_p": top_p,
+			# 	"temperature": temperature
+			# }
+
+			# r = signer.HttpRequest(method, url, headers, json.dumps(body))
+			# sig = signer.Signer()
+			# # Set the AK/SK to sign and authenticate the request.
+			# sig.Key = "LWYFNIIRUKPRQUYSBZPY"
+			# sig.Secret = "NNv1sCj6ufH4h82Q9fQCoLl6JDeUfEYdvFkOHqo0"
+			# sig.Sign(r)
+			# # print(r.headers["content-type"])
+			# # print(r.headers["Authorization"])
+			#
+			# resp = requests.request(r.method, r.scheme + "://" + r.host + r.uri, headers=r.headers, data=r.body, verify=False)
+			# decoded_content = resp.content.decode('utf-8')
+			#
+			# response_value = ''
+			# try:
+			# 	response_data = json.loads(decoded_content)
+			# 	if 'response' in response_data:
+			# 		response_value = response_data['response']
+			# 		# print(response_value)
+			# 	else:
+			# 		response_value = "No 'response' field found in JSON."
+			# except json.JSONDecodeError as e:
+			# 	response_value  ="Error decoding JSON:", str(e)
+			# except Exception as e:
+			# 	response_value = "An error occurred:", str(e)
+
+			headers = {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			}
+
+			resp = requests.request(method, url, headers=headers, data=json_data, verify=False)
+			print(resp.content)
 			decoded_content = resp.content.decode('utf-8')
-
-			response_value = ''
-			try:
-				response_data = json.loads(decoded_content)
-				if 'response' in response_data:
-					response_value = response_data['response']
-					# print(response_value)
-				else:
-					response_value = "No 'response' field found in JSON."
-			except json.JSONDecodeError as e:
-				response_value  ="Error decoding JSON:", str(e)
-			except Exception as e:
-				response_value = "An error occurred:", str(e)
-
-
-			answer_text = process(prompt, response_value, options, params, massage_store, is_knowledge)
+			print(decoded_content)
+			answer_text = process(prompt, decoded_content, options, params, massage_store, is_knowledge)
 			return StreamingResponse(content=answer_text, headers=stream_response_headers, media_type="text/event-stream")
 			# print(decoded_content)
 			# print(response_value)
