@@ -245,25 +245,34 @@ async def chat_process(request_data: dict):
 
 
 			#---------------第二种------------------------------------
+			#
+			# url = "http://10.0.68.137:7861/chat/chat"
+			# method = 'POST'
+			#
+			# # Add header parameters, for example, x-domain-id for invoking a global service and x-project-id for invoking a project-level service.
+			# headers = {"content-type": "application/json",'accept': 'application/json'}
+			# # Add a body if you have specified the PUT or POST method. Special characters, such as the double quotation mark ("), contained in the body must be escaped.
+			# body = {
+			# 	"query": keyword,
+			# 	"history": [],
+			# 	"stream": "false"
+			# }
 
-			url = "http://10.0.68.137:7861/chat/chat"
+			# json_data = json.dumps(body)
+
+			#---------------第三种------------------------------------
+
+			url = "http://10.0.68.137:8005/v1/chat/completions"
 			method = 'POST'
 
 			# Add header parameters, for example, x-domain-id for invoking a global service and x-project-id for invoking a project-level service.
-			headers = {"content-type": "application/json",'accept': 'application/json'}
+			headers = {"content-type": "application/json", 'accept': 'application/json'}
 			# Add a body if you have specified the PUT or POST method. Special characters, such as the double quotation mark ("), contained in the body must be escaped.
-			body = {
-				"query": keyword,
-				"history": [],
-				"stream": "false"
-			}
-
-
-
-
+			body = {"messages": [{"role": "user", "content": keyword}]}
 			json_data = json.dumps(body)
 
-		  #------------------------------------------------------------------------
+
+			#------------------------------------------------------------------------
 			# url = "https://e34e30bda81f4586a03250b37a863d36.infer.xckpjs.com/v1/infers/d8250d26-6a42-40ba-9454-0ff93119576b"
 			# method = 'POST'
 			#
@@ -309,10 +318,12 @@ async def chat_process(request_data: dict):
 			}
 
 			resp = requests.request(method, url, headers=headers, data=json_data, verify=False)
-			print(resp.content)
+
 			decoded_content = resp.content.decode('utf-8')
-			print(decoded_content)
-			answer_text = process(prompt, decoded_content, options, params, massage_store, is_knowledge)
+			# print(resp.content)
+			# print(decoded_content)
+			# print(json.loads(decoded_content)['choices'][0]['message']['content'] )
+			answer_text = process(prompt, json.loads(decoded_content)['choices'][0]['message']['content'], options, params, massage_store, is_knowledge)
 			return StreamingResponse(content=answer_text, headers=stream_response_headers, media_type="text/event-stream")
 			# print(decoded_content)
 			# print(response_value)
