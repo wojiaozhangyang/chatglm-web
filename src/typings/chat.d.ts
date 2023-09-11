@@ -20,6 +20,7 @@ declare namespace Chat {
 		active: number | null
 		usingContext: boolean
 		usingKnowledge: boolean
+		usingModel: string
 		history: History[]
 		chat: { uuid: number; data: Chat[] }[]
 	}

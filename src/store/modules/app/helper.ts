@@ -16,7 +16,7 @@ export interface AppState {
 }
 
 export function defaultSetting(): AppState {
-  return { siderCollapsed: false, theme: 'dark', language: 'zh-CN', focusTextarea: true }
+  return { siderCollapsed: false, theme: 'light', language: 'zh-CN', focusTextarea: true }
 }
 
 export function getLocalSetting(): AppState {

@@ -8,6 +8,7 @@ export function defaultState(): Chat.ChatState {
     active: uuid,
     usingContext: true,
     usingKnowledge: false,
+    usingModel: '清华大模型',
     history: [{ uuid, title: '新对话', isEdit: false }],
     chat: [{ uuid, data: [] }],
   }

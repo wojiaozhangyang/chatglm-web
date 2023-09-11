@@ -21,7 +21,6 @@ export function defaultSetting(): UserState {
     userInfo: {
       avatar: 'https://api.multiavatar.com/0.8481955987976837.svg',
       name: '绿链',
-
       description: '',
       chatgpt_top_p: 100,
       chatgpt_memory: 50,

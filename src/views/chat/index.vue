@@ -2,7 +2,7 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { NAutoComplete, NButton, NInput, useDialog, useMessage } from 'naive-ui'
+import { NAutoComplete, NButton, NDropdown, NInput, useDialog, useMessage } from 'naive-ui'
 import Recorder from 'recorder-core/recorder.mp3.min'
 import html2canvas from 'html2canvas'
 import { Message } from './components'
@@ -11,6 +11,7 @@ import { useChat } from './hooks/useChat'
 import { useCopyCode } from './hooks/useCopyCode'
 import { useUsingContext } from './hooks/useUsingContext'
 import { useUsingKnowledge } from './hooks/useUsingKnowledge'
+import { useUsingModel } from './hooks/useUsingModel'
 import { HoverButton, SvgIcon } from '@/components/common'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
 import { useAppStore, useChatStore, usePromptStore, useUserStore } from '@/store'
@@ -18,7 +19,6 @@ import { fetchAudioChatAPIProcess, fetchChatAPIProcess } from '@/api'
 import { t } from '@/locales'
 
 let controller = new AbortController()
-
 const route = useRoute()
 const dialog = useDialog()
 const ms = useMessage()
@@ -36,6 +36,8 @@ const { addChat, updateChat, updateChatSome, getChatByUuidAndIndex } = useChat()
 const { scrollRef, scrollToBottom } = useScroll()
 const { usingContext, toggleUsingContext } = useUsingContext()
 const { usingKnowledge, toggleUsingKnowledge } = useUsingKnowledge()
+
+const { usingModel, toggleUsingModel } = useUsingModel()
 
 const { uuid } = route.params as { uuid: string }
 
@@ -77,6 +79,38 @@ function getServerErrorType(responseText: string) {
 
 function handleSubmit() {
   onConversation()
+}
+
+const options = [
+  {
+    label: '清华大模型',
+    key: 'ChatGLM2',
+  },
+  {
+    label: '浪潮大模型',
+    key: '浪潮',
+  },
+  {
+    label: '知识库',
+    key: '知识库',
+  },
+  {
+    label: 'RPA',
+    key: 'RPA',
+  },
+  {
+    label: '图片',
+    key: 'images',
+  },
+  {
+    label: '视频',
+    key: 'video',
+  },
+]
+
+function handleSelect(key: any) {
+  ms.info(String(key))
+  toggleUsingModel(key)
 }
 
 let rec = new Recorder()
@@ -341,12 +375,13 @@ async function onConversation() {
       max_length: userInfo.value.chatgpt_max_length,
       temperature: userInfo.value.chatgpt_temperature,
       is_knowledge: usingKnowledge.value,
+      model: usingModel.value.toString(),
       options,
       signal: controller.signal,
       onDownloadProgress: ({ event }) => {
         const xhr = event.target
         let { responseText } = xhr
-       
+
         responseText = removeDataPrefix(responseText)
 
         const isError = isServerError(responseText)
@@ -758,7 +793,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col w-full h-full" :class="wrapClass">
+  <div class="flex flex-col w-full h-full chat-block" :class="wrapClass">
     <main class="flex-1 overflow-hidden">
       <div
         id="scrollRef"
@@ -806,6 +841,9 @@ onUnmounted(() => {
       <div class="w-full max-w-screen-xl m-auto">
         <div class="flex items-center justify-between space-x-2">
           <div v-if="actionVisible" class="flex items-center space-x-2">
+            <NDropdown trigger="hover" :options="options" @select="handleSelect">
+              <NButton> {{ usingModel }}</NButton>
+            </NDropdown>
             <HoverButton @click="handleClear">
               <span class="text-xl text-[#4f555e] dark:text-white">
                 <SvgIcon icon="ri:delete-bin-line" />
@@ -887,3 +925,10 @@ onUnmounted(() => {
     </footer>
   </div>
 </template>
+
+<style scoped>
+.chat-block{
+  background-image: url(../../assets/chat-bg.png);
+  background-size: 100% 100%;
+}
+</style>
