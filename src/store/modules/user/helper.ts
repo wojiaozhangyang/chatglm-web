@@ -1,4 +1,5 @@
 import { ss } from '@/utils/storage'
+import userAvatar from '@/assets/user-header.png'
 
 const LOCAL_NAME = 'userStorage'
 
@@ -19,7 +20,7 @@ export interface UserState {
 export function defaultSetting(): UserState {
   return {
     userInfo: {
-      avatar: 'https://api.multiavatar.com/0.8481955987976837.svg',
+      avatar: userAvatar,
       name: '绿链',
       description: '',
       chatgpt_top_p: 100,
